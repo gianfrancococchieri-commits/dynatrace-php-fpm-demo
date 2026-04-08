@@ -1,8 +1,15 @@
 <?php
-class Example {
-    public function run() {
-        echo "Dynatrace PHP Custom Service Demo\n";
+class InternalExample {
+    public function say() {
+        return "Hello world\n";
     }
 }
-$e = new Example();
-$e->run();
+class Example {
+    public function run() {
+        $internal = new InternalExample();
+        return $internal->say();
+    }
+}
+$ex = new Example();
+header("Content-Type: text/plain");
+echo $ex->run();
