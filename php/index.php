@@ -1,15 +1,8 @@
 <?php
-class InternalExample {
-    public function say() {
-        return "Hello world\n";
-    }
-}
 class Example {
     public function run() {
-        $internal = new InternalExample();
-        return $internal->say();
+        return "Dynatrace PHP demo OK\n";
     }
 }
-$ex = new Example();
-header("Content-Type: text/plain");
-echo $ex->run();
+$e = new Example();
+echo $e->run();
