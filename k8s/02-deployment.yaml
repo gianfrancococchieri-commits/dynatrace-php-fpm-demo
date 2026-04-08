@@ -13,27 +13,27 @@ spec:
       labels:
         app: dynatrace-php-demo
     spec:
-      containers:
-        - name: nginx
-          image: nginx:1.27-alpine
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: nginx-conf
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
-            - name: php-code
-              mountPath: /var/www/html
-        - name: php-fpm
-          image: ghcr.io/gianfrancococchieri-commits/dynatrace-php-customservice-demo:1.0.0
-          ports:
-            - containerPort: 9000
-          volumeMounts:
-            - name: php-code
-              mountPath: /var/www/html
       volumes:
+        - name: app-code
+          emptyDir: {}
         - name: nginx-conf
           configMap:
             name: nginx-conf
-        - name: php-code
-          emptyDir: {}
+
+      containers:
+        - name: php-fpm
+          image: ghcr.io/gianfrancococchieri-commits/dynatrace-php-demo:latest
+          volumeMounts:
+            - name: app-code
+              mountPath: /var/www/html
+
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: app-code
+              mountPath: /var/www/html
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
